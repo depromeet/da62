@@ -14,7 +14,7 @@
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorMain"
+            android:background="@color/colorGreen"
             android:focusable="true">
 
         <TextView
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:text="종류"
                     android:textSize="18dp"
-                    android:textColor="@color/colorMain"
+                    android:textColor="@color/colorGreen"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp"
@@ -90,7 +90,7 @@
                     android:textSize="14dp"
                     android:maxLines="1"
                     android:maxLength="20"
-                    android:textColor="@color/colorMain"
+                    android:textColor="@color/colorGreen"
                     android:paddingEnd="24dp"
                     android:paddingStart="24dp"
                     android:background="@drawable/input_box_green"
@@ -108,6 +108,16 @@
                     android:src="@drawable/search_icon"
                     android:id="@+id/imageView"/>
 
+            <ProgressBar
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintWidth_percent="0.055"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView"
+                    app:layout_constraintBottom_toBottomOf="@+id/edit_text"
+                    app:layout_constraintTop_toTopOf="@+id/edit_text"
+                    android:visibility="@{viewModel.isSpeciesSearching() ? View.VISIBLE : View.INVISIBLE}"/>
+
             <androidx.constraintlayout.widget.Guideline
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -119,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="일러스트"
-                    android:textColor="@color/colorMain"
+                    android:textColor="@color/colorGreen"
                     android:textSize="18dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -216,7 +226,7 @@
                     android:layout_height="0dp"
                     android:text="다음"
                     android:textSize="18dp"
-                    android:textColor="@color/colorMain"
+                    android:textColor="@color/colorGreen"
                     android:gravity="center"
                     android:background="@drawable/plant_regist_next_btn"
                     app:layout_constraintWidth_percent="0.25"
@@ -230,7 +240,9 @@
             <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/search_result_list"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    app:layout_constraintHeight_default="wrap"
+                    app:layout_constraintHeight_max="200dp"
                     app:layout_constraintEnd_toEndOf="@+id/edit_text"
                     app:layout_constraintStart_toStartOf="@+id/edit_text"
                     app:layout_constraintTop_toBottomOf="@+id/edit_text"

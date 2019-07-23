@@ -5,4 +5,7 @@
     <string name="start_info1">내 식물의 성장 일지, 관리팁 또한\n풀잎을 통해 얻어보세요!</string>
     <string name="start_info2">풀잎은 내가 키우는 식물들의\n물주는 날을 잊지않도록 알려주고\n관리를 도와주는 화분 관리 서비스 입니다</string>
     <string name="start_info3">관리를 제대로 못해서 화분이\n시들기 일쑤였나요?</string>
+    <string name="detail_title">식물 상세</string>
+    <string name="item_main_empty_message">식물을 등록해주세요</string>
+    <string name="detail_info_tips">관리팁(특별)</string>
 </resources>

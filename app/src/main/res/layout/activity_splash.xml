@@ -4,8 +4,9 @@
 
     <data>
 
-        <variable name="viewModel"
-                  type="com.da62.presenter.splash.SplashViewModel"/>
+        <variable
+            name="viewModel"
+            type="com.da62.presenter.splash.SplashViewModel" />
     </data>
 
     <com.airbnb.lottie.LottieAnimationView

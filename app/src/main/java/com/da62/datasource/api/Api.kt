@@ -1,5 +1,6 @@
 package com.da62.datasource.api
 
+import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,7 +15,11 @@ val apiModules = module {
         Retrofit.Builder()
             .client(get())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(
+                GsonConverterFactory.create(
+                    GsonBuilder().setLenient().create()
+                )
+            )
             .baseUrl("http://3.13.42.149:8080")
             .build()
             .create()

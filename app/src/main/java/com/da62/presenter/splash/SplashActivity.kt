@@ -30,6 +30,12 @@ class SplashActivity : BaseActivity() {
             playAnimation()
         }
         viewModel.openToMain.observe(this, Observer {
+            startActivity(intentFor<MainActivity>()).apply {
+                finish()
+            }
+        })
+
+        viewModel.openToStart.observe(this, Observer {
             startActivity(intentFor<StartActivity>()).apply {
                 finish()
             }

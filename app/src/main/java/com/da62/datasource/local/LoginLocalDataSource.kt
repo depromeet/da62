@@ -10,10 +10,10 @@ interface LoginLocalDataSource {
 class LoginLocalDataSourceImpl : LoginLocalDataSource {
 
     companion object {
-        val localMap = mutableMapOf<String, Any>()
+        var user: User? = null
     }
 
     override fun saveUser(user: User) {
-        localMap["user"] = user
+        LoginLocalDataSourceImpl.user = user
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,10 +10,288 @@
             type="com.da62.presenter.detail.DetailViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorMain">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_top"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="19dp" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".067" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".933" />
+
+            <ImageButton
+                android:id="@+id/detail_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:onClick="@{() -> viewModel.clickToBack()}"
+                android:src="@drawable/icon_back"
+                app:layout_constraintBottom_toBottomOf="@id/detail_title"
+                app:layout_constraintStart_toEndOf="@id/guide_start"
+                app:layout_constraintTop_toTopOf="@id/detail_title" />
+
+            <TextView
+                android:id="@+id/detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/detail_title"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/guide_top" />
+
+            <ImageButton
+                android:id="@+id/detail_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/icon_setting"
+                app:layout_constraintBottom_toBottomOf="@id/detail_title"
+                app:layout_constraintEnd_toStartOf="@id/guide_end"
+                app:layout_constraintTop_toTopOf="@id/detail_title" />
+
+            <ImageView
+                android:id="@+id/detail_thumbnail"
+                android:layout_width="142dp"
+                android:layout_height="@dimen/match_constraint"
+                android:layout_marginTop="51dp"
+                android:transitionName="pair_thumbnail"
+                app:growThumbNail="@{viewModel.card}"
+                app:layout_constraintDimensionRatio="1: 1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_title"
+                tools:src="@drawable/ic_illust_1" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_water"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".139" />
+
+            <ImageButton
+                android:id="@+id/detail_water"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_water_blue"
+                android:elevation="2dp"
+                android:src="@drawable/icon_water"
+                app:layout_constraintBottom_toBottomOf="@id/detail_thumbnail"
+                app:layout_constraintStart_toEndOf="@id/guide_water"
+                app:layout_constraintTop_toTopOf="@id/detail_thumbnail" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_heart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".861" />
+
+            <ImageButton
+                android:id="@+id/detail_heart"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="@drawable/bg_heart_pink"
+                android:elevation="2dp"
+                android:src="@drawable/icon_heart"
+                app:layout_constraintBottom_toBottomOf="@id/detail_thumbnail"
+                app:layout_constraintEnd_toStartOf="@id/guide_heart"
+                app:layout_constraintTop_toTopOf="@id/detail_thumbnail" />
+
+            <ImageView
+                android:id="@+id/detail_name_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:src="@drawable/ic_path"
+                app:layout_constraintEnd_toStartOf="@id/detail_name"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toStartOf="@id/detail_thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/detail_thumbnail" />
+
+            <TextView
+                android:id="@+id/detail_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="@{viewModel.plant.name}"
+                android:textColor="@color/green"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/detail_name_icon"
+                app:layout_constraintEnd_toEndOf="@id/detail_thumbnail"
+                app:layout_constraintStart_toEndOf="@id/detail_name_icon"
+                app:layout_constraintTop_toTopOf="@id/detail_name_icon"
+                tools:text="김떡잎" />
+
+            <TextView
+                android:id="@+id/detail_water_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="물주기"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintHorizontal_chainStyle="packed"
+                app:layout_constraintStart_toEndOf="@id/guide_water"
+                app:layout_constraintTop_toBottomOf="@id/detail_name" />
+
+            <ProgressBar
+                android:id="@+id/detail_water_progress"
+                style="@style/DetailWaterProgress"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:max="10"
+                android:progress="@{viewModel.plant.waterDate}"
+                app:layout_constraintBottom_toBottomOf="@id/detail_water_text"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@id/detail_water_text"
+                app:layout_constraintTop_toTopOf="@id/detail_water_text"
+                app:layout_constraintWidth_percent=".494"
+                tools:max="10"
+                tools:progress="5" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guide_progress_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent=".822" />
+
+            <TextView
+                android:id="@+id/detail_water_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:letterSpacing="0.07"
+                android:text="2일후"
+                android:textColor="@color/green"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/detail_water_progress"
+                app:layout_constraintStart_toEndOf="@id/guide_progress_text"
+                app:layout_constraintTop_toTopOf="@id/detail_water_progress" />
+
+            <TextView
+                android:id="@+id/detail_heart_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="애정"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/guide_water"
+                app:layout_constraintTop_toBottomOf="@id/detail_water_text" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <ProgressBar
+                android:id="@+id/detail_heart_progress"
+                style="@style/DetailHeartProgress"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_marginEnd="12dp"
+                android:max="10"
+                android:progress="@{viewModel.plant.love}"
+                app:layout_constraintBottom_toBottomOf="@id/detail_heart_text"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toStartOf="@id/detail_water_progress"
+                app:layout_constraintTop_toTopOf="@id/detail_heart_text"
+                app:layout_constraintWidth_percent=".494"
+                tools:max="10"
+                tools:progress="5" />
+
+            <TextView
+                android:id="@+id/detail_heart_percent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="4dp"
+                android:letterSpacing="0.07"
+                android:text="60%"
+                android:textColor="@color/green"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/detail_heart_progress"
+                app:layout_constraintStart_toEndOf="@id/guide_progress_text"
+                app:layout_constraintTop_toTopOf="@id/detail_heart_progress" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detail_horizontal_recycler_view"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="27dp"
+                app:addPlantsInfo="@{viewModel.plantInfo}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_heart_text"
+                tools:itemCount="1" />
+
+            <TextView
+                android:id="@+id/detail_gallery_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="56dp"
+                android:text="갤러리"
+                android:textColor="@color/black"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/guide_start"
+                app:layout_constraintTop_toBottomOf="@id/detail_horizontal_recycler_view" />
+
+            <ImageButton
+                android:id="@+id/detail_gallery_trash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:src="@drawable/icon_trash"
+                app:layout_constraintBottom_toBottomOf="@id/detail_gallery_text"
+                app:layout_constraintEnd_toStartOf="@id/guide_end"
+                app:layout_constraintTop_toTopOf="@id/detail_gallery_text" />
+
+            <ImageButton
+                android:id="@+id/detail_gallery_add"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:background="@null"
+                android:onClick="@{() ->viewModel.clickToGallery()}"
+                android:src="@drawable/icon_plus"
+                app:layout_constraintBottom_toBottomOf="@id/detail_gallery_text"
+                app:layout_constraintEnd_toStartOf="@id/detail_gallery_trash"
+                app:layout_constraintTop_toTopOf="@id/detail_gallery_text" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/detail_gallery_recycler_view"
+                android:layout_width="@dimen/match_constraint"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="41dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detail_gallery_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
 </layout>

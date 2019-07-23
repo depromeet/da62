@@ -76,6 +76,8 @@ dependencies {
 
     implementation(DebugLibraries.okhttpLogger)
 
+    implementation(Libraries.lottie)
+
     // Kakao
     implementation(group = Libraries.kakaoGroup, name = Libraries.kakaoName, version = Libraries.kakaoVersion)
 }

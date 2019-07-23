@@ -1,5 +1,6 @@
 package com.da62.model
 
+
 /**
  *  @param id
  *  @param name - 식물 이름
@@ -8,5 +9,13 @@ package com.da62.model
 data class Plant(
     val id: Int = 0,
     val name: String = "",
-    val description: String = ""
+    val alarm: Boolean = false,
+    val card: String = "",
+    val kind: String = "",
+    val waterTime: String = "",
+    val waterDate: Int = 0,
+    val love: Int = 0,
+    val grow: String = "",
+    val raiseDate: String = "",
+    val plantInfo: PlantInfo? = null
 )

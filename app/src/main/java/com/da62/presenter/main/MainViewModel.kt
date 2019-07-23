@@ -8,21 +8,18 @@ import com.da62.model.Plant
 import com.da62.presenter.base.BaseViewModel
 import com.da62.usecase.MainUseCase
 import com.da62.util.SingleLiveEvent
+import com.da62.util.add
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class MainViewModel(
     private val useCase: MainUseCase
-) : BaseViewModel(), MainEventListener {
+) : BaseViewModel() {
 
     private var viewType = ListType.LIST
 
     private val _plantList = MutableLiveData<List<Plant>>()
     val plantList: LiveData<List<Plant>>
         get() = _plantList
-
-    // plant id
-    private val _clickToItem = MutableLiveData<Int>()
-    val clickToItem: LiveData<Int>
-        get() = _clickToItem
 
     private val _clickToViewType = MutableLiveData<ListType>()
     val clickToViewType: LiveData<ListType>
@@ -37,17 +34,22 @@ class MainViewModel(
         get() = _clickToAdd
 
     init {
-        _plantList.value = useCase.getPlantList()
+
+        compositeDisposable add useCase.getPlantList()
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _plantList.value = it
+            }, {
+                it.printStackTrace()
+            })
+
+
 
         _isAddVisible.value = true
 
         _isAddVisible.addSource(_clickToViewType) {
             _isAddVisible.value = it == ListType.LIST
         }
-    }
-
-    override fun onItemClick(position: Int, plant: Plant) {
-        _clickToItem.value = plant.id
     }
 
     fun clickToViewType() {
@@ -65,9 +67,4 @@ class MainViewModel(
     fun clickToAdd() {
         _clickToAdd.call()
     }
-}
-
-interface MainEventListener {
-
-    fun onItemClick(position: Int, plant: Plant)
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="plantInfo"
+            type="com.da62.model.PlantInfo" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="303dp"
+        android:layout_height="255dp"
+        android:background="@drawable/bg_detail_info">
+
+        <ImageView
+            android:id="@+id/info_iv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="21dp"
+            android:src="@drawable/ic_group"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/info_tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="@string/detail_info_tips"
+            android:textColor="#8fec89"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/info_iv_type"
+            app:layout_constraintStart_toEndOf="@id/info_iv_type"
+            app:layout_constraintTop_toTopOf="@id/info_iv_type" />
+
+        <TextView
+            android:id="@+id/info_type_description"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
+            android:scrollbars="vertical"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/info_tv_type"
+            app:layout_constraintTop_toBottomOf="@id/info_tv_type"
+            tools:text="산세베리아" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

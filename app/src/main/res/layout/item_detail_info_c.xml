@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="plantInfo"
+            type="com.da62.model.PlantInfo" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="303dp"
+        android:layout_height="255dp"
+        android:background="@drawable/bg_detail_info">
+
+        <ImageView
+            android:id="@+id/info_iv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="22dp"
+            android:layout_marginTop="21dp"
+            android:src="@drawable/ic_group"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/info_tv_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="관리팁(기능성)"
+            android:textColor="#8fec89"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/info_iv_type"
+            app:layout_constraintStart_toEndOf="@id/info_iv_type"
+            app:layout_constraintTop_toTopOf="@id/info_iv_type" />
+
+        <TextView
+            android:id="@+id/info_type_description"
+            android:layout_width="@dimen/match_constraint"
+            android:layout_height="@dimen/match_constraint"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="32dp"
+            android:scrollbars="vertical"
+            android:text="@{plantInfo.fncltyInfo}"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/info_tv_type"
+            app:layout_constraintTop_toBottomOf="@id/info_tv_type"
+            tools:text="공기정화식물로 인기 있는 산세베리아는 대표적인 CAM식물이다. 그러나 개나 고양이와 같은 애완동물이 섭취했을 경우는 구토나 설사를 일으킬 수 있으므로 조심해야 한다. 이 식물의 영어 이름이 ‘시어머니의 혀’인 것은 꼿꼿하게 자라면서 가죽처럼 잎이 질기기 때문에 붙여진 이름이다. 실내에서 꽃 피기는 상당히 어렵지만, 환경이 좋으면 흰빛에 가까운 옅은 그린색의 작은 꽃들이 핀다. 품종은 여러 종류가 있지만 가장자리에 노란 테두리가 있는 종이 가장 보편적으로 이용되고 있다. 과습하지 않더라도 실내 온도가 10℃ 이하인 경우 썩는 원인이 된다. 특히 삽목 후 온도 관리에 주의해야 한다." />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

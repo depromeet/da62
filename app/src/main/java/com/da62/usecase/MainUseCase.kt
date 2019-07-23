@@ -2,13 +2,14 @@ package com.da62.usecase
 
 import com.da62.model.Plant
 import com.da62.repository.MainRepository
+import io.reactivex.Single
 
 interface MainUseCase {
 
-    fun getPlantList(): List<Plant>
+    fun getPlantList(): Single<List<Plant>>
 }
 
 class MainUseCaseImpl(private val repository: MainRepository) : MainUseCase {
 
-    override fun getPlantList(): List<Plant> = repository.getPlantList()
+    override fun getPlantList(): Single<List<Plant>> = repository.getPlantList()
 }

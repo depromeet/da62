@@ -7,7 +7,9 @@ val repositoryModules = module {
 
     factory { PlantRegistRepositoryImpl(get()) as PlantRegistRepository }
 
-    factory { DetailRepositoryImpl() as DetailRepository }
+    factory { DetailRepositoryImpl(get(), get()) as DetailRepository }
 
-    factory { MainRepositoryImpl() as MainRepository }
+    factory { MainRepositoryImpl(get(), get()) as MainRepository }
+
+    factory { GalleryRepositoryImpl(get(), get()) as GalleryRepository }
 }

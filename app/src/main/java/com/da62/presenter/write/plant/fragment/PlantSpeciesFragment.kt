@@ -3,6 +3,7 @@ package com.da62.presenter.write.plant.fragment
 import android.content.Context
 import android.graphics.drawable.StateListDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,12 +32,16 @@ class PlantSpeciesFragment : BaseFragment<FragmentPlantRegistSpeciesBinding>() {
 
     private lateinit var searchResultAdapter: SearchResultAdapter
 
+    private val timer = Timer()
+
+    private var timerTask: TimerTask? = null
+
     private val speciesIllustAsset = listOf(
-        Pair(R.drawable.ic_illust_1, R.drawable.ic_illust_1_trans),
-        Pair(R.drawable.ic_illust_2, R.drawable.ic_illust_2_trans),
-        Pair(R.drawable.ic_illust_3, R.drawable.ic_illust_3_trans),
-        Pair(R.drawable.ic_illust_4, R.drawable.ic_illust_4_trans),
-        Pair(R.drawable.ic_illust_5, R.drawable.ic_illust_5_trans)
+        Triple(R.drawable.ic_illust_1, R.drawable.ic_illust_1_trans, Card.FLOWER),
+        Triple(R.drawable.ic_illust_2, R.drawable.ic_illust_2_trans, Card.TREE),
+        Triple(R.drawable.ic_illust_3, R.drawable.ic_illust_3_trans, Card.DRUPE),
+        Triple(R.drawable.ic_illust_4, R.drawable.ic_illust_4_trans, Card.GRASS),
+        Triple(R.drawable.ic_illust_5, R.drawable.ic_illust_5_trans, Card.LEAF)
     )
 
     companion object {
@@ -59,34 +64,40 @@ class PlantSpeciesFragment : BaseFragment<FragmentPlantRegistSpeciesBinding>() {
         searchResultObserve()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        timerTask?.let { task ->
+            task.cancel()
+            timerTask = null
+        }
+    }
+
     private fun init() {
         createSelectorAssets().run {
-            binding.cbContainer.children.toList().forEach {
-                it.background = poll()
+            binding.cbContainer.children.toList().filter { it is CheckBox }.forEach { view ->
+                val item = poll()
+                view.background = item.first
+                view.tag = item.second
             }
         }
         binding.searchResultList.apply {
             layoutManager = LinearLayoutManager(context)
-            searchResultAdapter = SearchResultAdapter {
-                binding.editText.text = it.toEditable()
+            searchResultAdapter = SearchResultAdapter { word ->
+                word?.let {
+                    binding.editText.text = it.toEditable()
+                }
                 searchResultAdapter.clear()
             }.apply {
                 adapter = this
-            }
-        }
-        //TODO : 여기부터
-        binding.editText.onFocusChange { v, hasFocus ->
-            if (!hasFocus) {
-                searchResultAdapter.clear()
             }
         }
     }
 
     private fun createSelectorAssets() =
         context?.let { context ->
-            LinkedList<StateListDrawable>().run {
+            LinkedList<Pair<StateListDrawable, Card>>().run {
                 speciesIllustAsset.forEach {
-                    offer(createSelectorAsset(context, it.first, it.second))
+                    offer(Pair(createSelectorAsset(context, it.first, it.second), it.third))
                 }
                 this
             }
@@ -98,17 +109,23 @@ class PlantSpeciesFragment : BaseFragment<FragmentPlantRegistSpeciesBinding>() {
             addState(IntArray(0), ContextCompat.getDrawable(context, unCheckedResId))
         }
 
-    private fun speciesImageObserve() = viewModel.speciesImage.observe(this, Observer { view ->
-        view?.let {
-            binding.cbContainer.children.toList()
-                .filter { it is CheckBox }
-                .filterNot { it.id == view.id }
-                .forEach { (it as CheckBox).isChecked = false }
-        }
+    private fun speciesImageObserve() = viewModel.speciesImage.observe(this, Observer { card ->
+        binding.cbContainer.children.toList()
+            .filter { it.tag != card }
+            .filter { it is CheckBox }
+            .forEach { (it as CheckBox).isChecked = false }
     })
 
     private fun speciesObserve() = viewModel.species.observe(this, Observer {
-        viewModel.inputSpeciesText(it)
+        timerTask?.let { task ->
+            task.cancel()
+            timerTask = null
+        }
+        timerTask = SearchTimerTask(it) { word ->
+            viewModel.inputSpeciesText(word)
+        }.also { task ->
+            timer.schedule(task, 1000)
+        }
     })
 
     private fun searchResultObserve() = viewModel.searchResult.observe(this, Observer {
@@ -116,7 +133,17 @@ class PlantSpeciesFragment : BaseFragment<FragmentPlantRegistSpeciesBinding>() {
     })
 }
 
-class SearchResultAdapter(private val click: (String) -> Unit) :
+class SearchTimerTask(
+    private val word: String,
+    private val callback: (String) -> Unit
+) : TimerTask() {
+
+    override fun run() {
+        callback.invoke(word)
+    }
+}
+
+class SearchResultAdapter(private val click: (String?) -> Unit) :
     RecyclerView.Adapter<SearchResultAdapter.ViewHolder>() {
 
     private val searchList = mutableListOf<String>()
@@ -135,7 +162,11 @@ class SearchResultAdapter(private val click: (String) -> Unit) :
 
     fun setItem(searchList: List<String>) {
         this.searchList.clear()
-        this.searchList.addAll(searchList)
+        if (searchList.isNotEmpty()) {
+            this.searchList.addAll(searchList)
+        } else {
+            this.searchList.add("결과없음")
+        }
         notifyDataSetChanged()
     }
 
@@ -146,14 +177,26 @@ class SearchResultAdapter(private val click: (String) -> Unit) :
 
     inner class ViewHolder(
         private val binding: ListPlantSpeciesSearchItemBinding,
-        private val click: (String) -> Unit
+        private val click: (String?) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(text: String) {
             binding.result.text = text
-            itemView.setOnClickListener {
-                click(text)
+            if (text == "결과없음") {
+                binding.noSearch.visibility = View.VISIBLE
+                itemView.setOnClickListener {
+                    click(null)
+                }
+            } else {
+                binding.noSearch.visibility = View.GONE
+                itemView.setOnClickListener {
+                    click(text)
+                }
             }
         }
     }
+}
+
+enum class Card {
+    FLOWER, DRUPE, GRASS, TREE, LEAF
 }

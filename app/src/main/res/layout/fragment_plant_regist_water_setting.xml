@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorMain">
+            android:background="@color/colorGreen">
 
         <TextView
                 android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:text="물주기 설정"
                     android:textSize="18dp"
-                    android:textColor="@color/colorMain"
+                    android:textColor="@color/colorGreen"
                     android:layout_marginEnd="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginStart="8dp"
@@ -96,8 +96,8 @@
                     android:layout_marginEnd="24dp"
                     android:maxLines="1"
                     android:maxLength="20"
-                    android:textColor="@color/colorMain"
-                    android:text="@{viewModel.waterDate + `부터`}"
+                    android:textColor="@color/colorGreen"
+                    app:waterDate="@{viewModel.waterDate}"
                     android:textSize="14dp"
                     android:gravity="center_vertical|end"
                     android:paddingEnd="24dp"
@@ -115,10 +115,11 @@
                     android:layout_marginStart="17dp"
                     app:layout_constraintBottom_toBottomOf="@+id/date"
                     app:layout_constraintTop_toTopOf="@+id/date"
-                    app:layout_constraintStart_toStartOf="@id/date"/>
+                    app:layout_constraintStart_toStartOf="@id/date"
+                    android:id="@+id/imageView2"/>
 
-            <EditText
-                    android:id="@+id/water_often"
+            <View
+                    android:id="@+id/view"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     app:layout_constraintHeight_percent="0.09"
@@ -128,15 +129,37 @@
                     android:layout_marginStart="24dp"
                     android:layout_marginEnd="24dp"
                     android:layout_marginTop="24dp"
-                    android:textSize="14dp"
-                    android:maxLines="1"
-                    android:maxLength="20"
-                    android:textColor="@color/colorMain"
                     android:paddingStart="24dp"
                     android:paddingEnd="16dp"
-                    android:text="@{viewModel.waterOften + `일 마다`}"
-                    android:textAlignment="textEnd"
                     android:background="@drawable/input_box_rounded"/>
+
+            <EditText
+                    android:id="@+id/water_often"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintEnd_toStartOf="@+id/text"
+                    app:layout_constraintBottom_toBottomOf="@+id/view"
+                    app:layout_constraintTop_toTopOf="@+id/view"
+                    app:layout_constraintStart_toStartOf="@+id/view"
+                    android:background="@null"
+                    android:textSize="14dp"
+                    android:maxLines="1"
+                    android:maxLength="2"
+                    android:inputType="number"
+                    android:textColor="@color/colorGreen"
+                    android:text="@={viewModel.waterOften}"
+                    android:textAlignment="textEnd"
+                    android:layout_marginEnd="5dp"/>
+
+            <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="일 마다"
+                    app:layout_constraintEnd_toEndOf="@+id/view"
+                    app:layout_constraintBottom_toBottomOf="@+id/view"
+                    app:layout_constraintTop_toTopOf="@+id/view"
+                    android:paddingEnd="16dp"/>
 
             <TextView
                     android:id="@+id/water_time"
@@ -152,11 +175,11 @@
                     android:textSize="14dp"
                     android:maxLines="1"
                     android:maxLength="20"
-                    android:textColor="@color/colorMain"
+                    android:textColor="@color/colorGreen"
                     android:paddingEnd="24dp"
                     android:paddingStart="24dp"
                     android:background="@drawable/input_box_green"
-                    android:text="@{viewModel.waterTime + `AM`}"
+                    waterTime="@{viewModel.waterTime}"
                     android:gravity="right|center_vertical"/>
 
             <ImageView
@@ -187,7 +210,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="알림"
-                    android:textColor="@color/colorMain"
+                    android:textColor="@color/colorGreen"
                     android:textSize="14dp"
                     app:layout_constraintTop_toTopOf="@id/alarm_switch"
                     app:layout_constraintBottom_toBottomOf="@id/alarm_switch"
@@ -209,7 +232,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:layout_marginEnd="24dp"
                     android:layout_marginBottom="16dp"
-                    android:onClick="@{viewModel::onNextClick}"/>
+                    android:onClick="@{viewModel::onWaterFragmentCompleteClick}"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

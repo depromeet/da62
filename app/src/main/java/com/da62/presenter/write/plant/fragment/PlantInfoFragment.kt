@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.RadioButton
+import androidx.core.view.children
 import com.da62.R
 import com.da62.databinding.FragmentPlantRegistInfoBinding
 import com.da62.presenter.base.BaseFragment
@@ -30,11 +32,10 @@ class PlantInfoFragment : BaseFragment<FragmentPlantRegistInfoBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.plantLevel.value?.let { binding.levelGroup.check(it) }
-
-        binding.levelGroup.setOnCheckedChangeListener { group, checkedId ->
-            viewModel.setPlantLevel(checkedId)
+        binding.levelGroup.setOnCheckedChangeListener { _, checkedId ->
+            binding.levelGroup.children.find { it.id == checkedId }?.let {
+                viewModel.setPlantLevel((it as RadioButton).text.toString())
+            }
         }
     }
 }

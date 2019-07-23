@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
 import com.da62.R
 import com.da62.databinding.FragmentPlantRegistWaterSettingBinding
 import com.da62.presenter.base.BaseFragment
@@ -37,21 +36,14 @@ class PlantWaterSettingFragment : BaseFragment<FragmentPlantRegistWaterSettingBi
         binding.date.setOnClickListener {
             activity?.let {
                 PlantWaterCalendarDialog { date ->
-                    viewModel.waterDate.value = date
+                    viewModel.waterDate.value = "${date.first}.${date.second}.${date.third}"
                 }.show(it.supportFragmentManager, null)
             }
         }
         binding.waterTime.setOnClickListener {
             activity?.let {
                 PlantWaterTimePickerDialog { time ->
-                    var hour = time.first
-                    val min = time.second
-                    if (hour > 12) {
-                        hour -= 12
-                        viewModel.waterTime.value = "$hour : $min"
-                    } else {
-                        viewModel.waterTime.value = "$hour : $min"
-                    }
+                    viewModel.waterTime.value = "${time.first}:${time.second}"
                 }.show(it.supportFragmentManager, null)
             }
         }

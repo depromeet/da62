@@ -22,8 +22,11 @@ class PlantWaterTimePickerDialog(private val callback: (Pair<Int, Int>) -> Unit)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.timePicker.setOnTimeChangedListener { view, hourOfDay, minute ->
-            callback.invoke(Pair(hourOfDay, minute))
+        binding.confirm.setOnClickListener {
+            callback.invoke(Pair(binding.timePicker.currentHour, binding.timePicker.currentMinute))
+            dismiss()
+        }
+        binding.cancel.setOnClickListener {
             dismiss()
         }
     }

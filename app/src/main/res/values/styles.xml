@@ -1,8 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme"
-           parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -15,6 +14,23 @@
 
     <style name="WaterProgressBar" parent="HorizontalProgressBar">
         <item name="android:progressDrawable">@drawable/bg_main_progressbar</item>
+    </style>
+
+    <style name="DetailWaterProgress" parent="HorizontalProgressBar">
+        <item name="android:progressDrawable">@drawable/bg_detail_progressbar</item>
+        <item name="android:progressBackgroundTint">#1a6d5e</item>
+        <item name="android:layout_height">13dp</item>
+    </style>
+
+    <style name="DetailHeartProgress" parent="HorizontalProgressBar">
+        <item name="android:progressDrawable">@drawable/bg_detail_heart_progressbar</item>
+        <item name="android:layout_height">13dp</item>
+        <item name="android:progressBackgroundTint">#1a6d5e</item>
+    </style>
+
+    <style name="RatingBar" parent="android:Widget.Material.RatingBar.Small">
+        <item name="android:progressTint">@color/white</item>
+        <item name="android:progressBackgroundTint">@color/white</item>
     </style>
 
 </resources>

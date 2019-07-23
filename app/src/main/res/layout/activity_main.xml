@@ -72,7 +72,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_recycler_view"
             android:layout_width="@dimen/match_constraint"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/match_constraint"
             android:scrollbars="none"
             app:layout_constraintBottom_toTopOf="@id/main_btn_floating"
             app:layout_constraintEnd_toEndOf="parent"
@@ -88,19 +88,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent=".9" />
+            app:layout_constraintGuide_percent=".975" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/main_btn_floating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:backgroundTint="#1a6d5e"
             android:onClick="@{() -> viewModel.clickToAdd()}"
+            app:borderWidth="0dp"
             app:goneUnless="@{viewModel.isAddVisible}"
             app:layout_constraintBottom_toBottomOf="@id/guide_bottom_add"
             app:layout_constraintEnd_toStartOf="@id/guide_end"
-            app:layout_constraintTop_toBottomOf="@id/main_recycler_view"
             app:srcCompat="@drawable/ic_add_white_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

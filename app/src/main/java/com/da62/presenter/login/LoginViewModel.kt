@@ -2,6 +2,7 @@ package com.da62.presenter.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.da62.datasource.local.PreferenceStorage
 import com.da62.presenter.base.BaseViewModel
 import com.da62.usecase.LoginUseCase
 import com.da62.util.SingleLiveEvent
@@ -10,7 +11,10 @@ import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.util.exception.KakaoException
 
-class LoginViewModel(private val useCase: LoginUseCase) : BaseViewModel() {
+class LoginViewModel(
+    private val useCase: LoginUseCase,
+    private val preferenceStorage: PreferenceStorage
+) : BaseViewModel() {
 
     private val _error = SingleLiveEvent<String>()
 
@@ -47,6 +51,10 @@ class LoginViewModel(private val useCase: LoginUseCase) : BaseViewModel() {
         compositeDisposable add useCase.login(accessToken)
             .subscribe({
                 _progress.value = false
+                useCase.saveUser(it)
+                preferenceStorage.accessToken = it.token
+                preferenceStorage.userId = it.userId
+                preferenceStorage.isUserRegistered = true
                 _login.call()
             }, {
                 _progress.value = false
