@@ -51,6 +51,12 @@ interface ApiService {
         @Part image: MultipartBody.Part,
         @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>
     ): Single<Response<Plant>>
+
+    @POST("/api/plants/{id}/love")
+    fun postLove(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Single<Plant>
 }
 
 interface KakaoApiService {

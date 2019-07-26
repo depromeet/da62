@@ -62,6 +62,10 @@ class MainActivity : BaseActivity(), MainEventListener {
         viewModel.errorMessage.observe(this, Observer {
             toast("연결에 실패했습니다.")
         })
+
+        viewModel.refreshPosition.observe(this, Observer {
+            binding.mainRecyclerView.adapter?.notifyItemChanged(it)
+        })
     }
 
     override fun onItemClick(view: View, position: Int, plant: Plant) {
@@ -85,9 +89,15 @@ class MainActivity : BaseActivity(), MainEventListener {
             }
         }
     }
+
+    override fun clickToLove(id: Int, position: Int) {
+        viewModel.clickToLove(id, position)
+    }
 }
 
 interface MainEventListener {
 
     fun onItemClick(view: View, position: Int, plant: Plant)
+
+    fun clickToLove(id: Int, position: Int)
 }

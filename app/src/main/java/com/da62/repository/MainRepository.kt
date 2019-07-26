@@ -9,6 +9,8 @@ import io.reactivex.schedulers.Schedulers
 interface MainRepository {
 
     fun getPlantList(): Single<List<Plant>>
+
+    fun postLove(id: Int): Single<Plant>
 }
 
 class MainRepositoryImpl(
@@ -22,4 +24,10 @@ class MainRepositoryImpl(
             userId = preferenceStorage.userId
         ).subscribeOn(Schedulers.io())
 
+    override fun postLove(id: Int): Single<Plant> {
+        return apiService.postLove(
+            accessToken = preferenceStorage.accessToken ?: "",
+            id = id
+        ).subscribeOn(Schedulers.io())
+    }
 }

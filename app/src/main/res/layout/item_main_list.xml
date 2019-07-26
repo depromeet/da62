@@ -96,6 +96,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_heart_pink"
             android:elevation="2dp"
+            android:onClick="@{() ->eventListener.clickToLove(plant.id, position)}"
             android:src="@drawable/icon_heart"
             app:layout_constraintBottom_toBottomOf="@id/item_main_image"
             app:layout_constraintEnd_toEndOf="@id/item_main_water"
