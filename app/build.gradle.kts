@@ -84,6 +84,7 @@ dependencies {
     implementation(Libraries.lottie)
 
     implementation(Libraries.indicator)
+    implementation(Libraries.fcm)
 
     // Kakao
     implementation(
@@ -92,3 +93,4 @@ dependencies {
         version = Libraries.kakaoVersion
     )
 }
+apply(mapOf("plugin" to "com.google.gms.google-services"))

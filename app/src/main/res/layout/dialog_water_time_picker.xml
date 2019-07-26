@@ -7,7 +7,6 @@
             android:layout_height="match_parent"
             android:minWidth="200dp"
             android:minHeight="250dp"
-            android:background="@drawable/dialog_water_time_picker_bg"
             android:elevation="1dp">
 
         <TextView

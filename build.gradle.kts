@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath (BuildPlugins.buildGradle)
         classpath (BuildPlugins.kotlinGradlePlugin)
+        classpath(BuildPlugins.googleService)
     }
 }
 

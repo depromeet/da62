@@ -57,6 +57,13 @@ interface ApiService {
         @Header("Authorization") accessToken: String,
         @Path("id") id: Int
     ): Single<Plant>
+
+    @GET("/api/user/{id}/resisterToken")
+    fun postDeviceToken(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int,
+        @Query("deviceToken") deviceToken: String
+    ): Single<Response<Any>>
 }
 
 interface KakaoApiService {

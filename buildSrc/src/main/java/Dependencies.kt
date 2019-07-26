@@ -7,6 +7,7 @@ object BuildPlugins {
 
     private object Versions {
         const val gradle = "3.4.1"
+        const val googleService = "4.3.0"
     }
 
     // app  build
@@ -18,6 +19,7 @@ object BuildPlugins {
     // root build
     const val kotlinGradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Kotlin.version}"
     const val buildGradle = "com.android.tools.build:gradle:${Versions.gradle}"
+    const val googleService = "com.google.gms:google-services:${Versions.googleService}"
 }
 
 object AndroidSdk {
@@ -47,6 +49,8 @@ object Libraries {
         const val rxAndroid = "2.1.1"
         const val rxJava = "2.2.8"
         const val lottie = "3.0.7"
+
+        const val fcm = "19.0.1"
     }
 
     const val kakaoGroup = "com.kakao.sdk"
@@ -80,6 +84,7 @@ object Libraries {
     const val lottie = "com.airbnb.android:lottie:${Versions.lottie}"
 
     const val indicator = "com.ryanjeffreybrooks:indefinitepagerindicator:${Versions.indicator}"
+    const val fcm = "com.google.firebase:firebase-messaging:${Versions.fcm}"
 }
 
 object TestLibraries {
