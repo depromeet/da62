@@ -11,6 +11,8 @@ interface DetailRepository {
     fun getDetail(id: Int): Single<Plant>
 
     fun postLove(id: Int): Single<Plant>
+
+    fun delete(id: Int): Single<String>
 }
 
 class DetailRepositoryImpl(
@@ -29,6 +31,14 @@ class DetailRepositoryImpl(
         return apiService.postLove(
             accessToken = preferenceStorage.accessToken ?: "",
             id = id
+        ).subscribeOn(Schedulers.io())
+    }
+
+    override fun delete(id: Int): Single<String> {
+        return apiService.deletePlant(
+            accessToken = preferenceStorage.accessToken ?: "",
+            id = id,
+            userId = preferenceStorage.userId
         ).subscribeOn(Schedulers.io())
     }
 }

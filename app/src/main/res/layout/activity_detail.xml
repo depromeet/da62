@@ -67,7 +67,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:src="@drawable/icon_setting"
+                android:onClick="@{() -> viewModel.clickToTrash()}"
+                android:src="@drawable/icon_trash_dark"
                 app:layout_constraintBottom_toBottomOf="@id/detail_title"
                 app:layout_constraintEnd_toStartOf="@id/guide_end"
                 app:layout_constraintTop_toTopOf="@id/detail_title" />

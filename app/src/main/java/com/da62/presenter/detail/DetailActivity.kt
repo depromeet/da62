@@ -14,6 +14,7 @@ import com.da62.util.EXTRA_PLANT_THUMB_NAIL
 import com.da62.util.dp2px
 import com.da62.util.waterDialog
 import kotlinx.android.synthetic.main.fragment_plant_regist_water_setting.*
+import org.jetbrains.anko.alert
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -73,6 +74,21 @@ class DetailActivity : BaseActivity() {
         viewModel.plant.observe(this, Observer {
             (binding.detailHorizontalRecyclerView.adapter as DetailInfoAdapter).addPlant(it)
             binding.detailHorizontalRecyclerView.adapter?.notifyDataSetChanged()
+        })
+
+        viewModel.clickToTrash.observe(this, Observer {
+            alert {
+                title = "삭제"
+                message = "정말 삭제하시겠습니까?"
+                negativeButton("아니요") {}
+                positiveButton("예") {
+                    viewModel.deletePlant()
+                }
+            }.show()
+        })
+
+        viewModel.deleteSuccess.observe(this, Observer {
+            finish()
         })
 
         val thumbNaiExtra = intent.getStringExtra(EXTRA_PLANT_THUMB_NAIL)

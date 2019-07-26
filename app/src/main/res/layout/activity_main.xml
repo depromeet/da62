@@ -48,6 +48,7 @@
             android:background="@null"
             android:onClick="@{() -> viewModel.clickToViewType()}"
             android:src="@drawable/icon_grid"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/main_tv_title"
             app:layout_constraintEnd_toStartOf="@id/main_btn_trash"
             app:layout_constraintTop_toTopOf="@id/main_tv_title" />
@@ -58,6 +59,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:src="@drawable/icon_trash_dark"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/main_tv_title"
             app:layout_constraintEnd_toStartOf="@id/guide_end"
             app:layout_constraintTop_toTopOf="@id/main_tv_title" />

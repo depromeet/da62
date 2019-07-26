@@ -63,6 +63,14 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
     val errorMessage: LiveData<Any>
         get() = _errorMessage
 
+    private val _clickToTrash = SingleLiveEvent<Any>()
+    val clickToTrash: LiveData<Any>
+        get() = _clickToTrash
+
+    private val _deleteSuccess = SingleLiveEvent<Any>()
+    val deleteSuccess: LiveData<Any>
+        get() = _deleteSuccess
+
     fun clickToBack() {
         _clickToBack.call()
     }
@@ -82,7 +90,23 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
                 }
                 _visibleProgress.value = false
             }, {
-                _errorMessage.postValue(false)
+                _errorMessage.call()
+                _visibleProgress.postValue(false)
+            })
+    }
+
+    fun clickToTrash() {
+        _clickToTrash.call()
+    }
+
+    fun deletePlant() {
+        compositeDisposable add useCase.delete(plantId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _visibleProgress.value = false
+                _deleteSuccess.call()
+            }, {
+                _errorMessage.call()
                 _visibleProgress.postValue(false)
             })
     }
@@ -96,6 +120,7 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
                 updateUI(it)
                 _visibleProgress.value = false
             }, {
+                _errorMessage.call()
                 _visibleProgress.postValue(false)
                 it.printStackTrace()
             })

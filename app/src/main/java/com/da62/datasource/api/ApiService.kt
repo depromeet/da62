@@ -64,6 +64,13 @@ interface ApiService {
         @Path("id") id: Int,
         @Query("deviceToken") deviceToken: String
     ): Single<Response<Any>>
+
+    @POST("api/plants/{id}/delete")
+    fun deletePlant(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int,
+        @Query("userId") userId: Int
+    ): Single<String>
 }
 
 interface KakaoApiService {

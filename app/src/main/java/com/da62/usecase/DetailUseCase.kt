@@ -11,6 +11,9 @@ interface DetailUseCase {
     fun getDetail(id: Int): Single<Plant>
 
     fun postLove(id: Int): Single<Plant>
+
+    fun delete(id: Int): Single<String>
+
 }
 
 class DetailUseCaseImpl(private val repository: DetailRepository) : DetailUseCase {
@@ -29,4 +32,5 @@ class DetailUseCaseImpl(private val repository: DetailRepository) : DetailUseCas
 
     override fun postLove(id: Int): Single<Plant> = repository.postLove(id)
 
+    override fun delete(id: Int): Single<String> = repository.delete(id)
 }
