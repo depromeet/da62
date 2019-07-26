@@ -126,6 +126,18 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
             })
     }
 
+    fun loadImageList(id: Int) {
+        compositeDisposable add useCase.plantImageList(id)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _visibleProgress.postValue(true) }
+            .subscribe({
+
+            }, {
+                _errorMessage.call()
+                _visibleProgress.postValue(false)
+            })
+    }
+
     fun clickToGallery() {
         _clickToGallery.value = plantId
     }

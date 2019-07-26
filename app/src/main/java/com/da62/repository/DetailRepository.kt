@@ -13,6 +13,8 @@ interface DetailRepository {
     fun postLove(id: Int): Single<Plant>
 
     fun delete(id: Int): Single<String>
+
+    fun plantImageList(id: Int): Single<List<String>>
 }
 
 class DetailRepositoryImpl(
@@ -40,5 +42,19 @@ class DetailRepositoryImpl(
             id = id,
             userId = preferenceStorage.userId
         ).subscribeOn(Schedulers.io())
+    }
+
+    override fun plantImageList(id: Int): Single<List<String>> {
+        return apiService.getPlantImageList(
+            accessToken = preferenceStorage.accessToken ?: "",
+            plantId = id,
+            userId = preferenceStorage.userId
+        )
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.map { url ->
+                    url.imageUrl
+                }
+            }
     }
 }

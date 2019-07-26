@@ -2,6 +2,7 @@ package com.da62.repository
 
 import com.da62.datasource.api.ApiService
 import com.da62.datasource.local.PreferenceStorage
+import com.da62.model.Message
 import com.da62.model.Plant
 import com.da62.model.Response
 import io.reactivex.Single
@@ -14,7 +15,7 @@ interface GalleryRepository {
     fun uploadImage(
         image: MultipartBody.Part,
         params: Map<String, RequestBody>
-    ): Single<Response<Plant>>
+    ): Single<Message>
 }
 
 class GalleryRepositoryImpl(
@@ -25,7 +26,7 @@ class GalleryRepositoryImpl(
     override fun uploadImage(
         image: MultipartBody.Part,
         params: Map<String, RequestBody>
-    ): Single<Response<Plant>> {
+    ): Single<Message> {
         return apiService.uploadImage(
             accessToken = preferenceStorage.accessToken ?: "",
             image = image,

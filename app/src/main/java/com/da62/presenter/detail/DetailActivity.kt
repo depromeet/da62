@@ -1,5 +1,7 @@
 package com.da62.presenter.detail
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -60,7 +62,7 @@ class DetailActivity : BaseActivity() {
         })
 
         viewModel.clickToGallery.observe(this, Observer {
-            startActivity(intentFor<GalleryActivity>(EXTRA_PLANT_ID to it))
+            startActivityForResult(intentFor<GalleryActivity>(EXTRA_PLANT_ID to it), 1212)
         })
 
         viewModel.clickToWater.observe(this, Observer {
@@ -96,6 +98,15 @@ class DetailActivity : BaseActivity() {
 
         viewModel.loadDetail(detailId)
 
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1212) {
+            if (resultCode == Activity.RESULT_OK) {
+               // viewModel.loadData()
+            }
+        }
     }
 
     // transition complete

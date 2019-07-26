@@ -45,3 +45,8 @@ fun Date?.toDateString(): String? {
         format.format(it)
     }
 }
+
+fun Date.toUploadDate(): String {
+    val format = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS")
+    return format.format(this)
+}

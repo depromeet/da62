@@ -50,7 +50,7 @@ interface ApiService {
         @Header("Authorization") accessToken: String,
         @Part image: MultipartBody.Part,
         @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>
-    ): Single<Response<Plant>>
+    ): Single<Message>
 
     @POST("/api/plants/{id}/love")
     fun postLove(
@@ -71,6 +71,13 @@ interface ApiService {
         @Path("id") id: Int,
         @Query("userId") userId: Int
     ): Single<String>
+
+    @GET("api/getPlantImageList")
+    fun getPlantImageList(
+        @Header("Authorization") accessToken: String,
+        @Query("plantId") plantId: Int,
+        @Query("userId") userId: Int
+    ): Single<List<PlantImage>>
 }
 
 interface KakaoApiService {

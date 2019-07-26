@@ -1,6 +1,7 @@
 package com.da62.usecase
 
 import com.da62.datasource.local.PreferenceStorage
+import com.da62.model.Message
 import com.da62.model.Plant
 import com.da62.model.PlantImageRequest
 import com.da62.model.Response
@@ -8,6 +9,7 @@ import com.da62.repository.GalleryRepository
 import com.da62.util.ImageUtil
 import com.da62.util.ResourceProvider
 import com.da62.util.toDateString
+import com.da62.util.toUploadDate
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import okhttp3.MediaType
@@ -18,7 +20,7 @@ import java.io.File
 interface GalleryUseCase {
     fun uploadImage(
         request: PlantImageRequest
-    ): Single<Response<Plant>>
+    ): Single<Message>
 }
 
 class GalleryUseCaseImpl(
@@ -29,7 +31,7 @@ class GalleryUseCaseImpl(
 
     override fun uploadImage(
         request: PlantImageRequest
-    ): Single<Response<Plant>> {
+    ): Single<Message> {
         return repository.uploadImage(
             multiPartImageMapper(request.image),
             requestBodyMapper(request, preferenceStorage.userId)
@@ -51,7 +53,7 @@ class GalleryUseCaseImpl(
         userId: Int
     ): Map<String, RequestBody> {
         return mapOf(
-            "date" to toRequestBody(imageRequest.date.toDateString() ?: ""),
+            "date" to toRequestBody(imageRequest.date.toUploadDate()),
             "tag" to toRequestBody(imageRequest.tag),
             "plantId" to toRequestBody(imageRequest.plantId.toString()),
             "userId" to toRequestBody(userId.toString())
