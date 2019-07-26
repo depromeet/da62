@@ -9,6 +9,8 @@ import io.reactivex.schedulers.Schedulers
 interface DetailRepository {
 
     fun getDetail(id: Int): Single<Plant>
+
+    fun postLove(id: Int): Single<Plant>
 }
 
 class DetailRepositoryImpl(
@@ -18,6 +20,13 @@ class DetailRepositoryImpl(
 
     override fun getDetail(id: Int): Single<Plant> {
         return apiService.getDetail(
+            accessToken = preferenceStorage.accessToken ?: "",
+            id = id
+        ).subscribeOn(Schedulers.io())
+    }
+
+    override fun postLove(id: Int): Single<Plant> {
+        return apiService.postLove(
             accessToken = preferenceStorage.accessToken ?: "",
             id = id
         ).subscribeOn(Schedulers.io())

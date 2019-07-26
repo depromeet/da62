@@ -15,7 +15,7 @@ data class Plant(
     @SerializedName("alarm") val alarm: Boolean = false,
     @SerializedName("card") val card: String = "",
     @SerializedName("kind") val kind: String = "",
-    @SerializedName("waterTime") val waterTime: String = "",
+    @SerializedName("waterTime") val waterTime: Date = Date(),
     @SerializedName("waterDate") val waterDate: Int = 0,
     @SerializedName("love") val love: Int = 0,
     @SerializedName("grow") val grow: String = "",

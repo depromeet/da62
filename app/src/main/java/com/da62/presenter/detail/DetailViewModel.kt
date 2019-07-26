@@ -41,34 +41,50 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
         get() = _visibleProgress
 
     val raiseDate: LiveData<String> = Transformations.map(plant) {
-        val diff = it.raiseDate.time - Date().time
+        val diff = it.waterTime.time - Date().time
         val diffDays = diff / (24 * 60 * 60 * 1000)
         "${diffDays}일후"
     }
 
     val lovePercent: LiveData<String> = Transformations.map(plant) {
-        val percent = (it.love / 10) * 100
-        "$percent%"
+        val percent = ((it.love.toFloat() / 7f) * 100f)
+        "${percent.toInt()}%"
     }
 
-    private val _clickToWater = SingleLiveEvent<Any>()
-    val clickToWater: LiveData<Any>
+    private val _clickToWater = SingleLiveEvent<String>()
+    val clickToWater: LiveData<String>
         get() = _clickToWater
 
     private val _clickToLove = SingleLiveEvent<Any>()
     val clickToLove: LiveData<Any>
         get() = _clickToLove
 
+    private val _errorMessage = SingleLiveEvent<Any>()
+    val errorMessage: LiveData<Any>
+        get() = _errorMessage
+
     fun clickToBack() {
         _clickToBack.call()
     }
 
     fun clickToWater() {
-        _clickToWater.call()
+        _clickToWater.value = _plant.value?.name
     }
 
     fun clickToLove() {
-        _clickToLove.call()
+        compositeDisposable add useCase.postLove(plantId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _visibleProgress.postValue(true) }
+            .map { it.love }
+            .subscribe({ love ->
+                _plant.value?.let {
+                    _plant.value = it.copy(love = love)
+                }
+                _visibleProgress.value = false
+            }, {
+                _errorMessage.postValue(false)
+                _visibleProgress.postValue(false)
+            })
     }
 
     fun loadDetail(id: Int) {
