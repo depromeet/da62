@@ -22,6 +22,7 @@ import com.da62.util.EXTRA_PLANT_ID
 import com.da62.util.EXTRA_PLANT_THUMB_NAIL
 import com.da62.util.dp2px
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity(), MainEventListener {
@@ -57,6 +58,10 @@ class MainActivity : BaseActivity(), MainEventListener {
         viewModel.clickToAdd.observe(this, Observer {
             startActivityForResult(intentFor<PlantRegistActivity>(), 0x100)
         })
+
+        viewModel.errorMessage.observe(this, Observer {
+            toast("연결에 실패했습니다.")
+        })
     }
 
     override fun onItemClick(view: View, position: Int, plant: Plant) {
@@ -76,7 +81,7 @@ class MainActivity : BaseActivity(), MainEventListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 0x100) {
             if (resultCode == Activity.RESULT_OK) {
-
+                viewModel.loadData()
             }
         }
     }

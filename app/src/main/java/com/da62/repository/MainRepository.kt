@@ -22,13 +22,4 @@ class MainRepositoryImpl(
             userId = preferenceStorage.userId
         ).subscribeOn(Schedulers.io())
 
-    private fun dummy(): List<Plant> {
-        val dummy = mutableListOf<Plant>()
-
-        for (i in 0..5) {
-            dummy.add(Plant(id = i))
-        }
-
-        return dummy
-    }
 }
