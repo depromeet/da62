@@ -15,7 +15,7 @@ class DetailInfoAdapter(
     private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val plantList = mutableListOf<Plant>()
+    private var plant = Plant()
 
     private lateinit var plantInfo: PlantInfo
 
@@ -67,8 +67,8 @@ class DetailInfoAdapter(
         this.plantInfo = plantInfo
     }
 
-    fun addItems(plantList: List<Plant>) {
-        this.plantList.addAll(plantList)
+    fun addPlant(plant: Plant) {
+        this.plant = plant
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -87,7 +87,7 @@ class DetailInfoAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (::plantInfo.isInitialized) {
             when (position) {
-                0 -> (holder as DetailInfoAViewHolder).bind(plantInfo)
+                0 -> (holder as DetailInfoAViewHolder).bind(plantInfo, plant)
                 1 -> (holder as DetailInfoBViewHolder).bind(plantInfo)
                 2 -> (holder as DetailInfoCViewHolder).bind(plantInfo)
                 3 -> (holder as DetailInfoDViewHolder).bind(plantInfo)
@@ -101,8 +101,9 @@ class DetailInfoAViewHolder(
     private val lifecycleOwner: LifecycleOwner
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(plantInfo: PlantInfo) {
+    fun bind(plantInfo: PlantInfo, plant: Plant) {
         binding.plantInfo = plantInfo
+        binding.plant = plant
         binding.lifecycleOwner = lifecycleOwner
         binding.executePendingBindings()
     }

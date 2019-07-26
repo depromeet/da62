@@ -1,5 +1,7 @@
 package com.da62.presenter.main
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.app.ActivityOptionsCompat
@@ -20,6 +22,7 @@ import com.da62.util.EXTRA_PLANT_ID
 import com.da62.util.EXTRA_PLANT_THUMB_NAIL
 import com.da62.util.dp2px
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity(), MainEventListener {
@@ -48,11 +51,20 @@ class MainActivity : BaseActivity(), MainEventListener {
                 )
             )
         }
+        binding.mainIndicator.attachToRecyclerView(binding.mainRecyclerView)
 
         snapHelper.attachToRecyclerView(binding.mainRecyclerView)
 
         viewModel.clickToAdd.observe(this, Observer {
-            startActivity(intentFor<PlantRegistActivity>())
+            startActivityForResult(intentFor<PlantRegistActivity>(), 0x100)
+        })
+
+        viewModel.errorMessage.observe(this, Observer {
+            toast("연결에 실패했습니다.")
+        })
+
+        viewModel.refreshPosition.observe(this, Observer {
+            binding.mainRecyclerView.adapter?.notifyItemChanged(it)
         })
     }
 
@@ -68,9 +80,24 @@ class MainActivity : BaseActivity(), MainEventListener {
             optionsCompat.toBundle()
         )
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 0x100) {
+            if (resultCode == Activity.RESULT_OK) {
+                viewModel.loadData()
+            }
+        }
+    }
+
+    override fun clickToLove(id: Int, position: Int) {
+        viewModel.clickToLove(id, position)
+    }
 }
 
 interface MainEventListener {
 
     fun onItemClick(view: View, position: Int, plant: Plant)
+
+    fun clickToLove(id: Int, position: Int)
 }

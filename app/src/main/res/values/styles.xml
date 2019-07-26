@@ -3,8 +3,8 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/colorGreen</item>
+        <item name="colorPrimaryDark">@color/colorGreen</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -14,6 +14,10 @@
 
     <style name="WaterProgressBar" parent="HorizontalProgressBar">
         <item name="android:progressDrawable">@drawable/bg_main_progressbar</item>
+    </style>
+
+    <style name="LoveProgressBar" parent="HorizontalProgressBar">
+        <item name="android:progressDrawable">@drawable/bg_main_progressbar_love</item>
     </style>
 
     <style name="DetailWaterProgress" parent="HorizontalProgressBar">
@@ -32,5 +36,4 @@
         <item name="android:progressTint">@color/white</item>
         <item name="android:progressBackgroundTint">@color/white</item>
     </style>
-
 </resources>

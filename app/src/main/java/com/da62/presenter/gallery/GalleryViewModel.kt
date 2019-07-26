@@ -12,6 +12,7 @@ import com.da62.util.toDateString
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
+import org.jetbrains.anko.error
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -60,14 +61,15 @@ class GalleryViewModel(private val useCase: GalleryUseCase) : BaseViewModel() {
     private val uploadSubject = PublishSubject.create<PlantImageRequest>()
 
     init {
-
         compositeDisposable add uploadSubject.throttleFirst(
             300,
             TimeUnit.MICROSECONDS,
             AndroidSchedulers.mainThread()
         )
-            .doOnSubscribe { _visibleProgress.postValue(true) }
-            .flatMapSingle { useCase.uploadImage(it) }
+            .flatMapSingle {
+                useCase.uploadImage(it)
+                    .doOnSubscribe { _visibleProgress.postValue(true) }
+            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
@@ -77,7 +79,6 @@ class GalleryViewModel(private val useCase: GalleryUseCase) : BaseViewModel() {
             }, {
                 _visibleProgress.postValue(false)
                 _showToast.postValue("오류가 발생했습니다.")
-                it.printStackTrace()
             })
     }
 

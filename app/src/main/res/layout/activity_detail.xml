@@ -74,7 +74,7 @@
 
             <ImageView
                 android:id="@+id/detail_thumbnail"
-                android:layout_width="142dp"
+                android:layout_width="@dimen/match_constraint"
                 android:layout_height="@dimen/match_constraint"
                 android:layout_marginTop="51dp"
                 android:transitionName="pair_thumbnail"
@@ -83,6 +83,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_title"
+                app:layout_constraintWidth_percent=".394"
                 tools:src="@drawable/ic_illust_1" />
 
             <androidx.constraintlayout.widget.Guideline
@@ -98,6 +99,7 @@
                 android:layout_height="48dp"
                 android:background="@drawable/bg_water_blue"
                 android:elevation="2dp"
+                android:onClick="@{() -> viewModel.clickToWater()}"
                 android:src="@drawable/icon_water"
                 app:layout_constraintBottom_toBottomOf="@id/detail_thumbnail"
                 app:layout_constraintStart_toEndOf="@id/guide_water"
@@ -116,6 +118,7 @@
                 android:layout_height="48dp"
                 android:background="@drawable/bg_heart_pink"
                 android:elevation="2dp"
+                android:onClick="@{() -> viewModel.clickToLove()}"
                 android:src="@drawable/icon_heart"
                 app:layout_constraintBottom_toBottomOf="@id/detail_thumbnail"
                 app:layout_constraintEnd_toStartOf="@id/guide_heart"
@@ -188,12 +191,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:letterSpacing="0.07"
-                android:text="2일후"
+                android:text="@{viewModel.raiseDate}"
                 android:textColor="@color/green"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/detail_water_progress"
                 app:layout_constraintStart_toEndOf="@id/guide_progress_text"
-                app:layout_constraintTop_toTopOf="@id/detail_water_progress" />
+                app:layout_constraintTop_toTopOf="@id/detail_water_progress"
+                tools:text="2일후" />
 
             <TextView
                 android:id="@+id/detail_heart_text"
@@ -212,7 +216,7 @@
                 style="@style/DetailHeartProgress"
                 android:layout_width="@dimen/match_constraint"
                 android:layout_marginEnd="12dp"
-                android:max="10"
+                android:max="7"
                 android:progress="@{viewModel.plant.love}"
                 app:layout_constraintBottom_toBottomOf="@id/detail_heart_text"
                 app:layout_constraintHorizontal_bias="1"
@@ -228,12 +232,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="4dp"
                 android:letterSpacing="0.07"
-                android:text="60%"
+                android:text="@{viewModel.lovePercent}"
                 android:textColor="@color/green"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="@id/detail_heart_progress"
                 app:layout_constraintStart_toEndOf="@id/guide_progress_text"
-                app:layout_constraintTop_toTopOf="@id/detail_heart_progress" />
+                app:layout_constraintTop_toTopOf="@id/detail_heart_progress"
+                tools:text="60%" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/detail_horizontal_recycler_view"
@@ -289,6 +294,18 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/detail_gallery_text" />
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/colorGreen"
+                android:visibility="gone"
+                app:goneUnless="@{viewModel.visibleProgress}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="gone" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

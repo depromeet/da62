@@ -35,7 +35,7 @@ interface ApiService {
     fun getPlants(
         @Header("Authorization") accessToken: String,
         @Field("userId") userId: Int,
-        @Field("page") page: Int = 1
+        @Field("page") page: Int = 0
     ): Single<List<Plant>>
 
     @POST("/api/plants/{id}/detail")
@@ -51,6 +51,19 @@ interface ApiService {
         @Part image: MultipartBody.Part,
         @PartMap params: Map<String, @JvmSuppressWildcards RequestBody>
     ): Single<Response<Plant>>
+
+    @POST("/api/plants/{id}/love")
+    fun postLove(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int
+    ): Single<Plant>
+
+    @GET("/api/user/{id}/resisterToken")
+    fun postDeviceToken(
+        @Header("Authorization") accessToken: String,
+        @Path("id") id: Int,
+        @Query("deviceToken") deviceToken: String
+    ): Single<Response<Any>>
 }
 
 interface KakaoApiService {

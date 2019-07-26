@@ -5,7 +5,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="280dp"
-        android:layout_height="403dp"
+        android:layout_height="451dp"
         android:background="@drawable/bg_item_main"
         android:elevation="4dp">
 

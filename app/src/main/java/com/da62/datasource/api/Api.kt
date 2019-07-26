@@ -17,9 +17,13 @@ val apiModules = module {
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .addConverterFactory(
                 GsonConverterFactory.create(
-                    GsonBuilder().setLenient().create()
+                    GsonBuilder()
+                        .setLenient()
+                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS")
+                        .create()
                 )
             )
+
             .baseUrl("http://3.13.42.149:8080")
             .build()
             .create()

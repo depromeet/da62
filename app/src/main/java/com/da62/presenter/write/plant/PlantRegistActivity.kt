@@ -1,6 +1,8 @@
 package com.da62.presenter.write.plant
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -63,7 +65,8 @@ class PlantRegistActivity : BaseActivity() {
     private fun nextObserve() = viewModel.next.observe(this, Observer {
         binding.viewPager.apply {
             if (isLastPage()) {
-                //Do Something...
+                setResult(Activity.RESULT_OK)
+                finish()
             } else {
                 currentItem += 1
             }

@@ -14,6 +14,6 @@ val viewModelModules = module {
     viewModel { LoginViewModel(get(), get()) }
     viewModel { MainViewModel(get()) }
     viewModel { DetailViewModel(get()) }
-    viewModel { PlantRegistViewModel(get()) }
+    viewModel { PlantRegistViewModel(get(), get()) }
     viewModel { GalleryViewModel(get()) }
 }

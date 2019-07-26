@@ -11,5 +11,5 @@ val useCaseModules = module {
 
     factory { MainUseCaseImpl(get()) as MainUseCase }
 
-    factory { GalleryUseCaseImpl(get(), get()) as GalleryUseCase }
+    factory { GalleryUseCaseImpl(get(), get(), get()) as GalleryUseCase }
 }

@@ -12,7 +12,10 @@ import com.da62.presenter.gallery.GalleryActivity
 import com.da62.util.EXTRA_PLANT_ID
 import com.da62.util.EXTRA_PLANT_THUMB_NAIL
 import com.da62.util.dp2px
+import com.da62.util.waterDialog
+import kotlinx.android.synthetic.main.fragment_plant_regist_water_setting.*
 import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.toast
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DetailActivity : BaseActivity() {
@@ -57,6 +60,19 @@ class DetailActivity : BaseActivity() {
 
         viewModel.clickToGallery.observe(this, Observer {
             startActivity(intentFor<GalleryActivity>(EXTRA_PLANT_ID to it))
+        })
+
+        viewModel.clickToWater.observe(this, Observer {
+            waterDialog("${it}에게 물을 주시겠습니까?")
+        })
+
+        viewModel.errorMessage.observe(this, Observer {
+            toast("연결에 실패했습니다.")
+        })
+
+        viewModel.plant.observe(this, Observer {
+            (binding.detailHorizontalRecyclerView.adapter as DetailInfoAdapter).addPlant(it)
+            binding.detailHorizontalRecyclerView.adapter?.notifyDataSetChanged()
         })
 
         val thumbNaiExtra = intent.getStringExtra(EXTRA_PLANT_THUMB_NAIL)

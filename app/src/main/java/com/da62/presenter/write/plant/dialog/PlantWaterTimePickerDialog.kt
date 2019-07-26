@@ -1,5 +1,7 @@
 package com.da62.presenter.write.plant.dialog
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -22,6 +24,7 @@ class PlantWaterTimePickerDialog(private val callback: (Pair<Int, Int>) -> Unit)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         binding.confirm.setOnClickListener {
             callback.invoke(Pair(binding.timePicker.currentHour, binding.timePicker.currentMinute))
             dismiss()

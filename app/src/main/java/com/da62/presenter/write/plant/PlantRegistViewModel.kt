@@ -4,16 +4,18 @@ import android.view.View
 import android.widget.CompoundButton
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.da62.datasource.local.LoginLocalDataSourceImpl
+import com.da62.datasource.local.PreferenceStorage
 import com.da62.model.SavePlant
 import com.da62.presenter.base.BaseViewModel
 import com.da62.presenter.write.plant.fragment.Card
 import com.da62.usecase.PlantRegistUseCase
 import com.da62.util.SingleLiveEvent
 import com.da62.util.add
-import retrofit2.HttpException
 
-class PlantRegistViewModel(private val useCase: PlantRegistUseCase) : BaseViewModel() {
+class PlantRegistViewModel(
+    private val useCase: PlantRegistUseCase,
+    private val preferenceStorage: PreferenceStorage
+) : BaseViewModel() {
 
     private val _error = SingleLiveEvent<String>()
 
@@ -56,14 +58,14 @@ class PlantRegistViewModel(private val useCase: PlantRegistUseCase) : BaseViewMo
     }
 
     fun inputSpeciesText(input: String) {
-        getUser()?.let { user ->
+        getToken()?.let { token ->
             _isSpeciesSearching.postValue(true)
-            compositeDisposable add useCase.getPlantNames(user.token, input)
+            compositeDisposable add useCase.getPlantNames(token, input)
                 .subscribe({
-                    _isSpeciesSearching.value = false
+                    _isSpeciesSearching.postValue(false)
                     _searchResult.value = it
                 }, {
-                    _isSpeciesSearching.value = false
+                    _isSpeciesSearching.postValue(false)
                     it.printStackTrace()
                 })
         } ?: error("인증실패입니다.")
@@ -147,26 +149,30 @@ class PlantRegistViewModel(private val useCase: PlantRegistUseCase) : BaseViewMo
         waterTime.value?.let { true } ?: false
 
     private fun save() {
-        getUser()?.let { user ->
-            compositeDisposable add useCase.savePlant(
-                user.token,
-                SavePlant(
-                    alarm = false,
-                    card = speciesImage.value!!.name,
-                    grow = plantLevel.value!!,
-                    kind = species.value!!,
-                    name = nickName.value!!,
-                    raiseDate = toLocalDateTimeFormat(),
-                    waterDate = waterOften.value!!.toInt(),
-                    waterTime = toLocalDateTimeFormat()
-                ),
-                user.userId
-            ).subscribe({
-                _next.call()
-            }, {
-                it.printStackTrace()
-                _error.value = "서버오류입니다. 다시 시도해주세요."
-            })
+        getToken()?.let { token ->
+            val id = getUserId()
+            if (id != 0) {
+                compositeDisposable add useCase.savePlant(
+                    token,
+                    SavePlant(
+                        alarm = false,
+                        card = speciesImage.value!!.name,
+                        grow = plantLevel.value!!,
+                        kind = species.value!!,
+                        name = nickName.value!!,
+                        raiseDate = toLocalDateTimeFormat(),
+                        waterDate = waterOften.value!!.toInt(),
+                        waterTime = toLocalDateTimeFormat()
+                    ),
+                    getUserId()
+                ).subscribe({
+                    _next.call()
+                }, {
+                    _error.value = "서버오류입니다. 다시 시도해주세요."
+                })
+            } else {
+                error("로그인 오류입니다.")
+            }
         } ?: error("로그인 오류입니다.")
     }
 
@@ -187,9 +193,11 @@ class PlantRegistViewModel(private val useCase: PlantRegistUseCase) : BaseViewMo
         value
     }
 
-    private fun getUser() = LoginLocalDataSourceImpl.user
+    private fun getToken() = preferenceStorage.accessToken
+
+    private fun getUserId() = preferenceStorage.userId
 
     private fun error(message: String) {
-        _error.value = message
+        _error.postValue(message)
     }
 }

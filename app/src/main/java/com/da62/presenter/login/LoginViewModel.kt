@@ -7,9 +7,12 @@ import com.da62.presenter.base.BaseViewModel
 import com.da62.usecase.LoginUseCase
 import com.da62.util.SingleLiveEvent
 import com.da62.util.add
+import com.google.firebase.iid.FirebaseInstanceId
 import com.kakao.auth.ISessionCallback
 import com.kakao.auth.Session
 import com.kakao.util.exception.KakaoException
+import io.reactivex.Single
+import io.reactivex.android.schedulers.AndroidSchedulers
 
 class LoginViewModel(
     private val useCase: LoginUseCase,
@@ -49,17 +52,53 @@ class LoginViewModel(
     private fun login(accessToken: String) {
         _progress.value = true
         compositeDisposable add useCase.login(accessToken)
-            .subscribe({
-                _progress.value = false
+
+            .doOnSuccess {
                 useCase.saveUser(it)
                 preferenceStorage.accessToken = it.token
                 preferenceStorage.userId = it.userId
                 preferenceStorage.isUserRegistered = true
+            }
+            .flatMap {
+                Single.create<String> { emitter ->
+                    FirebaseInstanceId.getInstance().instanceId
+                        .addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                it.result?.token?.let { token ->
+                                    emitter.onSuccess(token)
+                                } ?: emitter.onError(Throwable("Missing Token!"))
+
+                            } else {
+                                emitter.onError(Throwable("Missing Token!"))
+                            }
+                        }
+                }
+            }
+            .flatMap {
+                useCase.postToken(
+                    preferenceStorage.accessToken ?: "",
+                    preferenceStorage.userId,
+                    it
+                )
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _progress.value = false
                 _login.call()
             }, {
-                _progress.value = false
-                _error.value = "서버에러입니다. 다시 시도해주세요."
+                _progress.postValue(false)
+                _error.postValue("서버에러입니다. 다시 시도해주세요.")
             })
+    }
+
+    private fun postFcmToken() {
+        FirebaseInstanceId.getInstance().instanceId
+            .addOnCompleteListener {
+                if (it.isSuccessful) {
+                    it.result?.token?.let { token ->
+                    }
+                }
+            }
     }
 
     override fun onCleared() {

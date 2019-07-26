@@ -25,6 +25,11 @@ android {
     }
 
     dataBinding.isEnabled = true
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 androidExtensions {
@@ -78,6 +83,14 @@ dependencies {
 
     implementation(Libraries.lottie)
 
+    implementation(Libraries.indicator)
+    implementation(Libraries.fcm)
+
     // Kakao
-    implementation(group = Libraries.kakaoGroup, name = Libraries.kakaoName, version = Libraries.kakaoVersion)
+    implementation(
+        group = Libraries.kakaoGroup,
+        name = Libraries.kakaoName,
+        version = Libraries.kakaoVersion
+    )
 }
+apply(mapOf("plugin" to "com.google.gms.google-services"))

@@ -90,6 +90,25 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".975" />
 
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".939" />
+
+        <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
+            android:id="@+id/main_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dotRadius="5dp"
+            app:dotSeparation="10dp"
+            app:layout_constraintBottom_toTopOf="@id/guide_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:selectedDotColor="#10c780"
+            app:selectedDotRadius="5dp" />
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/main_btn_floating"
             android:layout_width="wrap_content"
@@ -101,6 +120,18 @@
             app:layout_constraintBottom_toBottomOf="@id/guide_bottom_add"
             app:layout_constraintEnd_toStartOf="@id/guide_end"
             app:srcCompat="@drawable/ic_add_white_24dp" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:indeterminateTint="@color/colorGreen"
+            android:visibility="gone"
+            app:goneUnless="@{viewModel.visibleProgress}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="gone" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -23,7 +23,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="280dp"
-        android:layout_height="403dp"
+        android:layout_height="451dp"
         android:background="@drawable/bg_item_main"
         android:elevation="4dp"
         android:onClick="@{(view) -> eventListener.onItemClick(view, position, plant)}">
@@ -73,7 +73,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/guide_top_image"
-            app:layout_constraintWidth_percent=".394"
+            app:layout_constraintWidth_percent=".508"
             tools:src="@drawable/ic_illust_1" />
 
         <ImageButton
@@ -96,6 +96,7 @@
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_heart_pink"
             android:elevation="2dp"
+            android:onClick="@{() ->eventListener.clickToLove(plant.id, position)}"
             android:src="@drawable/icon_heart"
             app:layout_constraintBottom_toBottomOf="@id/item_main_image"
             app:layout_constraintEnd_toEndOf="@id/item_main_water"
@@ -132,12 +133,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginBottom="9dp"
             android:text="물주기"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_main_title_image" />
+            app:layout_constraintBottom_toTopOf="@id/item_main_love_text"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ProgressBar
             android:id="@+id/item_main_water_progress"
@@ -145,6 +146,8 @@
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:max="@{plant.waterCycle}"
+            android:progress="@{plant.remainWaterDate}"
             app:layout_constraintBottom_toBottomOf="@id/item_main_water_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1"
@@ -160,19 +163,22 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="12dp"
+            android:layout_marginBottom="56dp"
             android:text="애정"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_main_water_text" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
         <ProgressBar
             android:id="@+id/item_main_love_progress"
-            style="@style/WaterProgressBar"
+            style="@style/LoveProgressBar"
             android:layout_width="@dimen/match_constraint"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
+            android:max="7"
+            android:progress="@{plant.love}"
             app:layout_constraintBottom_toBottomOf="@id/item_main_love_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1"

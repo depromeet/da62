@@ -33,23 +33,39 @@ class MainViewModel(
     val clickToAdd: LiveData<Any>
         get() = _clickToAdd
 
+    private val _visibleProgress = MutableLiveData<Boolean>()
+    val visibleProgress: LiveData<Boolean>
+        get() = _visibleProgress
+
+    private val _errorMessage = SingleLiveEvent<Any>()
+    val errorMessage: LiveData<Any>
+        get() = _errorMessage
+
+    private val _refreshPosition = SingleLiveEvent<Int>()
+    val refreshPosition: LiveData<Int>
+        get() = _refreshPosition
+
     init {
 
-        compositeDisposable add useCase.getPlantList()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({
-                _plantList.value = it
-            }, {
-                it.printStackTrace()
-            })
-
-
-
+        loadData()
         _isAddVisible.value = true
 
         _isAddVisible.addSource(_clickToViewType) {
             _isAddVisible.value = it == ListType.LIST
         }
+    }
+
+    fun loadData() {
+        compositeDisposable add useCase.getPlantList()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _visibleProgress.postValue(true) }
+            .subscribe({
+                _plantList.value = it
+                _visibleProgress.value = false
+            }, {
+                _errorMessage.postValue(false)
+                _visibleProgress.postValue(false)
+            })
     }
 
     fun clickToViewType() {
@@ -66,5 +82,24 @@ class MainViewModel(
 
     fun clickToAdd() {
         _clickToAdd.call()
+    }
+
+    fun clickToLove(id: Int, position: Int) {
+        compositeDisposable add useCase.postLove(id)
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { _visibleProgress.postValue(true) }
+            .map { it.love }
+            .subscribe({ love ->
+                _plantList.value?.let {
+                    val result = it.toMutableList()
+                    result[position] = result[position].copy(love = love)
+                    _plantList.value = result
+                }
+                _refreshPosition.value = position
+                _visibleProgress.value = false
+            }, {
+                _errorMessage.postValue(false)
+                _visibleProgress.postValue(false)
+            })
     }
 }
