@@ -10,6 +10,7 @@ import com.da62.usecase.DetailUseCase
 import com.da62.util.SingleLiveEvent
 import com.da62.util.add
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import java.util.*
 
 class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
@@ -71,6 +72,10 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
     val deleteSuccess: LiveData<Any>
         get() = _deleteSuccess
 
+    private val _imageList = MutableLiveData<List<String>>()
+    val imagelist: LiveData<List<String>>
+        get() = _imageList
+
     fun clickToBack() {
         _clickToBack.call()
     }
@@ -115,10 +120,20 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
         compositeDisposable add useCase.getDetail(id)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { _visibleProgress.postValue(true) }
-            .subscribe({
+            .doOnSuccess {
                 plantId = id
                 updateUI(it)
+            }
+            .flatMap {
+                useCase.plantImageList(id)
+            }
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                _imageList.value = it
                 _visibleProgress.value = false
+                //  plantId = id
+                //   updateUI(it)
+                //    _visibleProgress.value = false
             }, {
                 _errorMessage.call()
                 _visibleProgress.postValue(false)
@@ -126,12 +141,13 @@ class DetailViewModel(private val useCase: DetailUseCase) : BaseViewModel() {
             })
     }
 
-    fun loadImageList(id: Int) {
-        compositeDisposable add useCase.plantImageList(id)
+    fun loadImageList() {
+        compositeDisposable add useCase.plantImageList(plantId)
             .observeOn(AndroidSchedulers.mainThread())
             .doOnSubscribe { _visibleProgress.postValue(true) }
             .subscribe({
-
+                _imageList.value = it
+                _visibleProgress.value = false
             }, {
                 _errorMessage.call()
                 _visibleProgress.postValue(false)

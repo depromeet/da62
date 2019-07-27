@@ -72,7 +72,7 @@ interface ApiService {
         @Query("userId") userId: Int
     ): Single<String>
 
-    @GET("api/getPlantImageList")
+    @GET("api/getImage")
     fun getPlantImageList(
         @Header("Authorization") accessToken: String,
         @Query("plantId") plantId: Int,

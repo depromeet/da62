@@ -19,7 +19,7 @@ val apiModules = module {
                 GsonConverterFactory.create(
                     GsonBuilder()
                         .setLenient()
-                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SS")
+                        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
                         .create()
                 )
             )

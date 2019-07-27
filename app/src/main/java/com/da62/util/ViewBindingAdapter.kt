@@ -10,10 +10,14 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.MultiTransformation
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.request.RequestOptions
 import com.da62.R
 import com.da62.model.ListType
 import com.da62.model.Plant
 import com.da62.presenter.main.MainAdapter
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 
 @BindingAdapter("mainItems")
 fun setAddItems(recyclerView: RecyclerView, items: List<Plant>?) {
@@ -128,5 +132,24 @@ fun setWaterTime(view: TextView, time: String?) {
             min = "0$min"
         }
         view.text = "$hour : $min $meridiem"
+    }
+}
+
+@BindingAdapter("roundImage")
+fun roundImage(imageView: ImageView, url: String?) {
+    url?.let {
+        val option = MultiTransformation(
+            CenterCrop(),
+            RoundedCornersTransformation(
+                dp2px(imageView.context.applicationContext, 10f),
+                0,
+                RoundedCornersTransformation.CornerType.ALL
+            )
+        )
+
+        Glide.with(imageView.context)
+            .load(it)
+            .apply(RequestOptions.bitmapTransform(option))
+            .into(imageView)
     }
 }

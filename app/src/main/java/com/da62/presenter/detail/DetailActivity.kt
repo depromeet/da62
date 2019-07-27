@@ -52,10 +52,14 @@ class DetailActivity : BaseActivity() {
         binding.detailGalleryRecyclerView.apply {
             layoutManager =
                 LinearLayoutManager(this@DetailActivity, LinearLayoutManager.HORIZONTAL, false)
+            adapter = DetailImageAdapter(this@DetailActivity)
         }
 
         val infoSnapHelper = LinearSnapHelper()
         infoSnapHelper.attachToRecyclerView(binding.detailHorizontalRecyclerView)
+
+        val gallerySnapHelper = LinearSnapHelper()
+        gallerySnapHelper.attachToRecyclerView(binding.detailGalleryRecyclerView)
 
         viewModel.clickToBack.observe(this, Observer {
             supportFinishAfterTransition()
@@ -93,6 +97,10 @@ class DetailActivity : BaseActivity() {
             finish()
         })
 
+        viewModel.imagelist.observe(this, Observer {
+            (binding.detailGalleryRecyclerView.adapter as DetailImageAdapter).submitList(it)
+        })
+
         val thumbNaiExtra = intent.getStringExtra(EXTRA_PLANT_THUMB_NAIL)
         viewModel.configureThumbnail(thumbNaiExtra)
 
@@ -104,7 +112,7 @@ class DetailActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1212) {
             if (resultCode == Activity.RESULT_OK) {
-               // viewModel.loadData()
+                viewModel.loadImageList()
             }
         }
     }
